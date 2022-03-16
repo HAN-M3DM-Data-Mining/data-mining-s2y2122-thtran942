@@ -1,0 +1,83 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+---
+ title: "Review KNN Assigment"
+author:     Niek 
+Reviewer:   Hai
+---
+
+```{r}
+library(tidyverse)
+library(googlesheets4)
+library(class)
+library(caret)
+```
+
+
+## Business Understanding
+By using multiple variable i am going to predict if the room is occupied or not.
+
+
+
+## Data Understanding
+```{r}
+url <- "https://raw.githubusercontent.com/HAN-M3DM-Data-Mining/data-mining-s2y2122-Goodstudent101/master/datasets/KNN-occupancy.csv"
+Dataset <- read_csv(url)
+```
+
+
+
+## Data Preparation
+```{r}
+model<-lm( Occupancy ~ CO2 + Light + Temperature + date,data=Dataset)
+summary(model1)
+```
+## Ok ##
+
+```{r}
+Test2.0 <- table(Dataset$Occupancy)
+
+Test3.0u <- round(prop.table(cntOccu) * 100 , digits = 1)
+
+cleanDF$Occupancy <- factor(Dataset$Occupancy, levels = c(0, 1))
+```
+## Hai's comment: I think you lack of the normalize step to normalize numeric fearure for testing##
+
+```{r}
+Test4.0 <- cleanDF[1:4071,  ]
+
+Test5.0<- cleanDF[4072:8143,  ]
+```
+## Hai: Test4.0 and 5.0 is the training and tesing dataset##
+
+```{r}
+Test6.0<- cleanDF[1:4071,  3]
+
+Test7.0 <- cleanDF[4072:8143,  3]
+```
+## Also same for this with the dataset with labels##
+
+
+## Modeling
+```{r}
+model2.0 <- knn(train = as.matrix(Test4.0), test = as.matrix(Test5.0), cl = as.matrix(Test6.0), k = 21)
+
+head(cleanDF_occupancy_pred)
+```
+## Hai: I ran into a problem: Warning in knn(train = as.matrix(Test4.0), test = as.matrix(Test5.0), cl = as.matrix(Test6.0),  :  NAs introduced by coercion ##
+
+```{r}
+Tabel2.0 <- factor(KNN_occupancy$Occupancy, levels = c("0", "1"), labels = c("unoccupied", "Occupied")) %>% relevel("Occupied")
+head(KNN_occupancy, 50)
+```
+
+##Hai: Also here the 'KNN_occupancy' not found##
+
+## Evaluation and Deployment
+```{r}
+confusionMatrix(cleanDF_occupancy_pred, testDF_labels[[1]], positive = NULL, dnn = c("Prediction", "True"))
+```
+## Hai: Some variables are not found:'cleanDF_occupancy_pred', which lead to the misunderstanding of the system and so the file can not run##
